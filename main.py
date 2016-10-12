@@ -1,14 +1,58 @@
 import getInformation as factual
 import database as db
 
-sqlite_file = 'knowledge.db'
-conn, c = db.connect(sqlite_file)
-table_name = 'restaurants'
-schema = 'id integer,name text,address text,neighborhood text,region text,tel integer,cuisine text,price text,rating real,payment_cashonly text,reservations text,hours text,open_24hrs text,attire text,parking text,smoking text,meal_breakfast text,meal_lunch text,meal_dinner text,meal_deliver text,meal_takeout text,meal_cater text,alcohol text,alcohol_bar text,alcohol_beer_wine text,alcohol_byob text,kids_goodfor text,kids_menu text,groups_goodfor text,accessible_wheelchair text,seating_outdoor text,wifi text,room_private text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat text'
-values = factual.filterTable(factual.chargeTable())
-db.create_table(c, table_name, schema)
-db.insert_value(c, table_name, values)
-db.total_rows(c, table_name, True)
-db.table_col_info(c, table_name, True)
-db.show_table(c, table_name, True)
-db.close(conn)
+def createDB():
+	sqlite_file = 'botRestaurants.db'
+	conn, c = db.connect(sqlite_file)
+	createTableKnowledge(c)
+	createTableCollective(c)
+	createTableExpert(c)
+	db.close(conn)
+
+def createTableKnowledge(c):
+	table_name = 'knowledge'
+	schema = 'id integer,name text,price text,rating real,payment_cashonly text,open_24hrs text,parking text,smoking text,meal_breakfast text,meal_lunch text,meal_dinner text,alcohol text,groups_goodfor text,accessible_wheelchair text'
+	values = factual.filterTable(factual.chargeTable())
+	db.create_table(c, table_name, schema)
+	db.insert_value(c, table_name, values)
+	showTable(c, table_name)
+
+def createTableCollective(c):
+	table_name = 'collective'
+	schema = 'id_restaurant integer,profesion integer,edad integer'
+	db.create_table(c, table_name, schema)
+	showTable(c, table_name)
+
+
+def createTableExpert(c):
+	table_name = 'expert'
+	schema = 'precio integer,profesion integer,edad integer'
+	values = [[3,1,1],
+			[4,1,2],
+			[5,1,3],
+			[2,2,1],
+			[3,2,2],
+			[4,2,3],
+			[2,3,1],
+			[3,3,2],
+			[4,3,3],
+			[1,4,1],
+			[3,4,2],
+			[3,4,3],
+			[1,5,1],
+			[1,5,2],
+			[1,5,3]
+			]
+	db.create_table(c, table_name, schema)
+	db.insert_value(c, table_name, values)
+	showTable(c, table_name)
+
+
+def showTable(c,table_name):
+	#db.total_rows(c, table_name, True)
+	#db.table_col_info(c, table_name, True)
+	db.show_table(c, table_name, True)
+#db.consultCountNull(c, table_name, 'payment_cashonly')
+#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
+
+createDB()

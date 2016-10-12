@@ -47,3 +47,10 @@ def show_table(c, table_name, print_out):
         if print_out:
             print(row)
     return data
+
+def consultCountNull(c, table_name, parametro):
+    data = []
+    for row in c.execute("SELECT * FROM {0} WHERE {1} = 'None'".format(table_name, parametro)):
+        data.append(row)
+        print(row)
+    return data
