@@ -41,6 +41,7 @@ def filterTable(restaurants):
 	matriz= []
 	for i, restaurant in enumerate(data):
 		matriz.append([])
+		matriz[i].append(i)
 		matriz[i].append(restaurant['name']) if restaurant.get("name") != None else matriz[i].append('None')
 		matriz[i].append(restaurant['address']) if restaurant.get("address") != None else matriz[i].append('None')
 		matriz[i].append(extractNeighborhood(restaurant['neighborhood'])) if restaurant.get("neighborhood") != None else matriz[i].append('None')
