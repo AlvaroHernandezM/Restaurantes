@@ -11,7 +11,7 @@ def createDB():
 
 def createTableKnowledge(c):
 	table_name = 'knowledge'
-	schema = 'id integer,name text,price text,rating real,payment_cashonly text,open_24hrs text,parking text,smoking text,meal_breakfast text,meal_lunch text,meal_dinner text,alcohol text,groups_goodfor text,accessible_wheelchair text'
+	schema = 'id integer,name text,cuisine text,price text,rating real,payment_cashonly text,open_24hrs text,parking text,smoking text,meal_breakfast text,meal_lunch text,meal_dinner text,alcohol text,groups_goodfor text,accessible_wheelchair text'
 	values = factual.filterTable(factual.chargeTable())
 	db.create_table(c, table_name, schema)
 	db.insert_value(c, table_name, values)
@@ -52,7 +52,7 @@ def showTable(c,table_name):
 	#db.total_rows(c, table_name, True)
 	#db.table_col_info(c, table_name, True)
 	db.show_table(c, table_name, True)
-#db.consultCountNull(c, table_name, 'payment_cashonly')
+	#db.consultCountNull(c, table_name, 'cuisine')
 #alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
 
 createDB()

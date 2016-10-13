@@ -37,12 +37,13 @@ def extractHours(hours):
 
 
 def filterTable(restaurants):
-	data = restaurants.select('name,price,rating,payment_cashonly,open_24hrs,parking,smoking,meal_breakfast,meal_lunch,meal_dinner,alcohol,groups_goodfor,accessible_wheelchair').data()
+	data = restaurants.select('name,cuisine,price,rating,payment_cashonly,open_24hrs,parking,smoking,meal_breakfast,meal_lunch,meal_dinner,alcohol,groups_goodfor,accessible_wheelchair').data()
 	matriz= []
 	for i, restaurant in enumerate(data):
 		matriz.append([])
 		matriz[i].append(i)
 		matriz[i].append(restaurant['name']) if restaurant.get("name") != None else matriz[i].append('None')
+		matriz[i].append(extractCuisine(restaurant['cuisine'])) if restaurant.get("cuisine") != None else matriz[i].append('Pub Food')
 		matriz[i].append(restaurant['price']) if restaurant.get("price") != None else matriz[i].append('None')
 		matriz[i].append(restaurant['rating']) if restaurant.get("rating") != None else matriz[i].append('None')
 		matriz[i].append(str(restaurant['payment_cashonly'])) if restaurant.get("payment_cashonly") != None else matriz[i].append('False')
