@@ -19,7 +19,7 @@ def createTableKnowledge(c):
 
 def createTableCollective(c):
 	table_name = 'collective'
-	schema = 'id_restaurant integer,profesion integer,edad integer'
+	schema = 'cuisine text,edad integer'
 	db.create_table(c, table_name, schema)
 	showTable(c, table_name)
 
