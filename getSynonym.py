@@ -1,6 +1,5 @@
 import urllib.request
 from bs4 import BeautifulSoup
-from owl.OWL import OWL
 
 
 def getHtml(url):
@@ -12,12 +11,16 @@ def getHtml(url):
     except:
         return ''
 
-
 def getData(html, element, tag, attribute):
     text = BeautifulSoup(html)
-    data = text.find_all(element, {attribute: tag})
+    data = text.find_all(element, {tag: attribute})
     return data
 
 def synonyms(word):
     listSynonyms = []
-    html = getHtml('http://www.wordreference.com/sinonimos/' + word)
+    elements = []
+    html = getHtml('http://sinonimos.woxikon.co/es/' + word)
+    data = getData(html, 'div', 'class', 'synonyms-list-group')
+    for element in data:
+        listSynonyms.append(element.find('b').getText())
+    return listSynonyms
