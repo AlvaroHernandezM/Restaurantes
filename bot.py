@@ -1,26 +1,54 @@
+import pln
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 import os
+import re
+
 
 def listener(bot, update):
     id = update.message.chat_id
     message = update.message.text
     #print('ID: ' + str(id) + ' MENSAJE: ' + message)
     #if message.lower() 
-    print(readLastLineConversation(str(id))[len(readLastLineConversation(str(id)))-1].replace('user: ',''))
-
-    writeConversation(str(id),"user: "+message+"\n")
+    
+    if (readLastMessageConversation(id) == '¿cuálestuedad?'):
+        filterAge(message.lower())
+    else :
+        bot.sendMessage(chat_id=id, text="No entender")
+    writeConversation(str(id),"user: "+message)
  #   if message.lower() :
  #   else:
  #       bot.sendMessage(chat_id=update.message.chat_id, text='No entiendo')
 
+def readLastMessageConversation(id):
+    return readLastLineConversation(str(id))[len(readLastLineConversation(str(id)))-1].lower().replace('bot: ','').replace(' ','').replace('\n','')
+     
+
+def filterAge(message):
+    patron = re.compile('(?:\d*)?\d+')
+    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
+    print('resultado: '+resultPln)
+    if((len(resultPln)) ==1):
+        if(resultPln[0].isdigit()): #es un digito , se debe asignar el valor diguso
+
+        else: #verificar que este en la lista de letras numeros
+
+    else:
+        #pendiente
+
+
+
 
 def start(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text='Hola')
-    bot.sendMessage(chat_id=update.message.chat_id, text='¿Cuál es tu edad?')
+    id = update.message.chat_id
+    user = update.message.from_user
+    message = '¿Cuál es tu edad?'
+    bot.sendMessage(chat_id=update.message.chat_id, text='Hola, '+user.first_name+", me alegra saludarte.")
+    bot.sendMessage(chat_id=update.message.chat_id, text=message)
+    writeConversation(str(id),"bot: "+message)
 
 def writeConversation(id,message):
     file = open(id, 'a')
-    file.write(message)
+    file.write(message+'\n')
     file.close()
 
 def readLastLineConversation(id):
