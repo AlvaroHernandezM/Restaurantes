@@ -1,3 +1,51 @@
 
 bot: ¿qué edad tienes?
 user: 20 añasro
+bot: ¿qué edad tienes?
+user: hola, tengo 21 años.
+bot: ¿qué edad tienes?
+user: hola tengo entre 20 y 15
+bot: ¿qué edad tienes?
+user: veinte
+bot: ¿qué edad tienes?
+user: veinte
+bot: ¿qué edad tienes?
+user: 32
+bot: ¿qué edad tienes?
+user: alvaro tengo 20
+bot: ¿qué edad tienes?
+user: hola tengo 20 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: soy ingeniero de sistemas
+bot: ¿qué edad tienes?
+user: 20
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: ing sistemas
+bot: ¿quieres desayuno, almuerzo o cena?
+user: almuerzo
+bot: ¿qué edad tienes?
+user: 30
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: soy estudiente
+bot: ¿quieres desayuno, almuerzo o cena?
+user: tengo ganas de almorzar
+bot: ¿qué edad tienes?
+user: hola, tengo apenas 20 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: me dedico a estudiar ingenieria de sistemas
+bot: ¿quieres desayuno, almuerzo o cena?
+user: prefiero el almurzo
+bot: ¿cuál es el tipo de comida que más te gusta?
+user: me gusta la comida rapida
+bot: ¿disfrutas más la comida de algún país en especial?
+user: sí, la de colombia
+bot: ¿pagaras en efectivo o con algún tipo tarjeta?
+user: tengo pensado pagar en efectivo
+bot: ¿tienes alguna discapacidad o vas en compañía de alguien en esta condición?
+user: creo que si
+bot: ¿necesitas estacionamiento?
+user: no
+bot: ¿fumas?
+user: de vez en cuando
+bot: ¿tienes pensado tomar algo hoy?
+user: la verdad si
