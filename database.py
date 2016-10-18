@@ -39,14 +39,17 @@ def insert_value(c, table_name, values):
     for row in values:
         c.execute('INSERT INTO {0} VALUES {1}'.format(table_name, str(row).replace('[', '(').replace(']', ')')))
 
+def insert_value(c,table_name,columns,values):
+    c.execute('INSERT INTO {0} {1} VALUES {2}'.format(table_name,columns,str(values).replace('[', '(').replace(']', ')')))
 # Se obtiene los datos almacenados en la tabla
-def show_table(c, table_name, print_out):
+def show_table(c, table_name, print_out, columns):
     data = []
-    for row in c.execute('SELECT * FROM {0}'.format(table_name)):
+    for row in c.execute('SELECT {1} FROM {0}'.format(table_name,columns)):
         data.append(row)
         if print_out:
             print(row)
     return data
+
 
 def consultCountNull(c, table_name, parametro):
     data = []

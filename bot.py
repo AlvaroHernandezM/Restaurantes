@@ -1,6 +1,8 @@
 import pln
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 import os
+import fuzzyLogic as fl
+import adminDB
 
 def listener(bot, update):
     id = update.message.chat_id
@@ -11,38 +13,26 @@ def listener(bot, update):
     writeConversation(str(id),"user: "+message)
     if option == 0: #la respuesta hecha por el bot fue la edad
         filterAge(message, bot, id)
+    elif option == 1:
+        filterProfesion(message,bot,id)
+    elif option == 2:
+        filterHourFood(message,bot,id)
+    elif option == 3:
+        filterTypeFood(message,bot,id)
+    elif option == 4:
+        filterCashOnly(message,bot,id)
+    elif option == 5:
+        filterDisability(message,bot,id)
+    elif option == 6:
+        filterParking(message,bot,id)
+    elif option == 7:
+        filterSmoking(message,bot,id)
+    elif option == 8:
+        filterAlcohol(message,bot,id)
+    elif option == 9:
+        filterWithFriends(message,bot,id)
     else:
-        if option == 1:
-            filterProfesion(message,bot,id)
-        else:
-            if option == 2:
-                filterHourFood(message,bot,id)
-            else:
-                if option == 3:
-                    filterTypeFood(message,bot,id)
-                else:
-                    if option == 4:
-                        filterCountriFood(message,bot,id)
-                    else:
-                        if option == 5:
-                            filterCashOnly(message,bot,id)
-                        else:
-                            if option == 6:
-                                filterDisability(message,bot,id)
-                            else:
-                                if option == 7:
-                                    filterParking(message,bot,id)
-                                else:
-                                    if option == 8:
-                                        filterSmoking(message,bot,id)
-                                    else:
-                                        if option == 9:
-                                            filterAlcohol(message,bot,id)
-                                        else:
-                                            if option == 10:
-                                                filterWithFriends(message,bot,id)
-                                            else:
-                                                bot.sendMessage(chat_id=id, text="No entender")
+        bot.sendMessage(chat_id=id, text="No entender")
 def filterWithFriends(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
@@ -82,20 +72,12 @@ def filterCashOnly(message,bot,id):
     message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
     bot.sendMessage(chat_id=id, text="Para una mejor comodidad:")
     bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
-
-def filterCountriFood(message,bot,id):
-    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
-    message="¿Pagaras en efectivo o con algún tipo tarjeta?"
-    bot.sendMessage(chat_id=id, text="Unas preguntas más:")
-    bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
+    writeConversation(str(id),"bot: "+message.lower())    
 
 def filterTypeFood(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
-    message="¿Disfrutas más la comida de algún país en especial?"
+    message="¿Pagaras en efectivo o con algún tipo tarjeta?"
     bot.sendMessage(chat_id=id, text="¡Me antoje!")
     bot.sendMessage(chat_id=id, text=message)
     writeConversation(str(id),"bot: "+message.lower())
@@ -112,9 +94,11 @@ def filterHourFood(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
     message="¿Cuál es el tipo de comida que más te gusta?"
+    message2="¿o disfrutas más la comida de algún país en especial?"
     bot.sendMessage(chat_id=id, text="Ahora dime:")
     bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
+    bot.sendMessage(chat_id=id, text=message2)
+    writeConversation(str(id),"bot: "+message2.lower())
 
 def readLastMessageConversation(id): #retornar la ultima linea del archivo que tiene creado para el usuario
     return readLastLineConversation(str(id))[len(readLastLineConversation(str(id)))-1].lower().replace('bot: ','').replace(' ','').replace('\n','')
@@ -130,8 +114,13 @@ def filterAge(message, bot, id):
         value = int(resultPln[0])
         if(isValidateAge(value)):#es un rango de edad valido?
             #se debe asginar el valor difurso con este valor que es un solo digito     
-            print('falta hallar valor difuso para: '+str(value))
+           # print('falta hallar valor difuso para: '+str(value))
             #se continua con la conversación porque ya tomo el valor difuso
+            valueFuzzy = fl.getAge(value)
+            print (valueFuzzy)
+            values = [int(id),valueFuzzy]
+            print (values)
+            adminDB.insertValue('(id,edad)','users',values)
             message="¿Cuál es tu profesión o qué haces a diario?"
             bot.sendMessage(chat_id=id, text="¡Que bien! y cuentame:")
             bot.sendMessage(chat_id=id, text=message)
@@ -207,40 +196,29 @@ def identifiedOptionConversation(id): #retorna el identificador para cada
     print(lastMessage)
     if lastMessage=='¿quéedadtienes?':
         return 0
+    elif lastMessage =='¿cuálestuprofesiónoquéhacesadiario?':
+        return 1
+    elif lastMessage =='¿quieresdesayuno,almuerzoocena?':
+        return 2
+    elif lastMessage =='¿odisfrutasmáslacomidadealgúnpaísenespecial?':
+        return 3
+    elif lastMessage =='¿pagarasenefectivooconalgúntipotarjeta?':
+        return 4
+    elif lastMessage =='¿tienesalgunadiscapacidadovasencompañíadealguienenestacondición?':
+        return 5
+    elif lastMessage =='¿necesitasestacionamiento?':
+        return 6
+    elif lastMessage =='¿fumas?':
+        return 7
+    elif lastMessage =='¿tienespensadotomaralcoholhoy?':
+        return 8
+    elif lastMessage =='¿vasconamigos?':
+        return 9
     else:
-        if lastMessage =='¿cuálestuprofesiónoquéhacesadiario?':
-            return 1
-        else:
-            if lastMessage =='¿quieresdesayuno,almuerzoocena?':
-                return 2
-            else:
-                if lastMessage =='¿cuáleseltipodecomidaquemástegusta?':
-                    return 3
-                else:
-                    if lastMessage =='¿disfrutasmáslacomidadealgúnpaísenespecial?':
-                        return 4
-                    else:
-                        if lastMessage =='¿pagarasenefectivooconalgúntipotarjeta?':
-                            return 5
-                        else:
-                            if lastMessage =='¿tienesalgunadiscapacidadovasencompañíadealguienenestacondición?':
-                                return 6
-                            else:
-                                if lastMessage =='¿necesitasestacionamiento?':
-                                    return 7
-                                else:
-                                    if lastMessage =='¿fumas?':
-                                        return 8
-                                    else:
-                                        if lastMessage =='¿tienespensadotomaralcoholhoy?':
-                                            return 9
-                                        else:
-                                            if lastMessage =='¿vasconamigos?':
-                                                return 10
-                                            else:
-                                                return 11   
+        return 10
 
 def main():
+    adminDB.createDB()
     updater = Updater('205961193:AAE4XZ9K6VcdfnzM7DvTuI1JsIF_SVKQ_Fo')
     dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
@@ -249,7 +227,6 @@ def main():
     dispatcher.add_handler(listener_handler)
     updater.start_polling()
     updater.idle()
-
 
 if __name__ == '__main__':
     main()

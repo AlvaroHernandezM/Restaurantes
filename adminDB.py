@@ -4,10 +4,28 @@ import database as db
 def createDB():
 	sqlite_file = 'botRestaurants.db'
 	conn, c = db.connect(sqlite_file)
-	createTableKnowledge(c)
-	createTableCollective(c)
-	createTableExpert(c)
+	try:
+		createTableCollective(c)
+		createTableExpert(c)
+		createTableUsers(c)
+	except:
+		pass
 	db.close(conn)
+
+def insertValue(columns,table_name,values):
+	sqlite_file = 'botRestaurants.db'
+	conn, c = db.connect(sqlite_file)
+	db.insert_value(c,table_name,columns,values)
+	showTable(c,table_name,columns.replace('(','').replace(')',''))
+	print('mostrar')
+	db.close(conn)
+	print('si pase')
+
+def createTableUsers(c):
+	table_name = 'users'
+	schema = 'id integer,edad integer,profesion integer'
+	db.create_table(c, table_name, schema)
+	showTable(c, table_name,'*')
 
 def createTableKnowledge(c):
 	table_name = 'knowledge'
@@ -15,13 +33,13 @@ def createTableKnowledge(c):
 	values = factual.filterTable(factual.chargeTable())
 	db.create_table(c, table_name, schema)
 	db.insert_value(c, table_name, values)
-	showTable(c, table_name)
+	showTable(c, table_name,'*')
 
 def createTableCollective(c):
 	table_name = 'collective'
 	schema = 'cuisine text,edad integer'
 	db.create_table(c, table_name, schema)
-	showTable(c, table_name)
+	showTable(c, table_name,'*')
 
 
 def createTableExpert(c):
@@ -45,14 +63,14 @@ def createTableExpert(c):
 			]
 	db.create_table(c, table_name, schema)
 	db.insert_value(c, table_name, values)
-	showTable(c, table_name)
+	showTable(c, table_name,'*')
 
 
-def showTable(c,table_name):
+def showTable(c,table_name, columns):
 	#db.total_rows(c, table_name, True)
 	#db.table_col_info(c, table_name, True)
-	db.show_table(c, table_name, True)
+	db.show_table(c, table_name, True, columns)
 	#db.consultCountNull(c, table_name, 'cuisine')
-#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
+	#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
 
-createDB()
+#createDB()
