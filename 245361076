@@ -270,3 +270,29 @@ user: estudio
 bot: ¿quieres desayuno, almuerzo o cena?
 user: desayuno alvaro
 bot: ¿o disfrutas más la comida de algún país en especial?
+bot: ¿qué edad tienes?
+user: tengo 20años
+bot: ¿qué edad tienes?
+user: 32 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio ingenieria sistemas
+bot: ¿quieres desayuno, almuerzo o cena?
+user: desayunar papi
+bot: ¿o disfrutas más la comida de algún país en especial?
+bot: ¿qué edad tienes?
+user: hola 20 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio ing sistemas
+bot: ¿quieres desayuno, almuerzo o cena?
+user: no sé
+bot: ¿quieres desayuno, almuerzo o cena?
+user: desayunar
+bot: ¿o disfrutas más la comida de algún país en especial?
+user: la comida de colombia la disfruto
+bot: ¿tienes alguna discapacidad o vas en compañía de alguien en esta condición?
+user: prefiero ir sin eso
+bot: ¿tienes pensado tomar alcohol hoy?
+user: tal vez
+bot: ¿vas con amigos?
+user: con 3
+bot: con 3

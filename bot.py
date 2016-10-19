@@ -20,24 +20,19 @@ def listener(bot, update):
     elif option == 3:
         filterTypeFood(message,bot,id)
     elif option == 4:
-        filterCashOnly(message,bot,id)
-    elif option == 5:
         filterDisability(message,bot,id)
-    elif option == 6:
-        filterParking(message,bot,id)
-    elif option == 7:
-        filterSmoking(message,bot,id)
-    elif option == 8:
+    elif option == 5:
         filterAlcohol(message,bot,id)
-    elif option == 9:
+    elif option == 6:
         filterWithFriends(message,bot,id)
     else:
         bot.sendMessage(chat_id=id, text="No entender")
 def filterWithFriends(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
-    bot.sendMessage(chat_id=id, text="Ha terminado la conversacion, te recomiendo")
+    bot.sendMessage(chat_id=id, text="No tengo más preguntas, te recomiendo")
     writeConversation(str(id),"bot: "+message.lower())
+
 def filterAlcohol(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
@@ -45,42 +40,23 @@ def filterAlcohol(message,bot,id):
     bot.sendMessage(chat_id=id, text="Y como última pregunta:")
     bot.sendMessage(chat_id=id, text=message)
     writeConversation(str(id),"bot: "+message.lower())
-def filterSmoking(message,bot,id):
+
+def filterDisability(message,bot,id): #acesso para personas con discapacidad
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
     message="¿Tienes pensado tomar alcohol hoy?"
     bot.sendMessage(chat_id=id, text=message)
     writeConversation(str(id),"bot: "+message.lower())
-
-def filterParking(message,bot,id):
-    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
-    message="¿Fumas?"
-    bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
-
-def filterDisability(message,bot,id): #acesso para personas con discapacidad
-    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
-    message="¿Necesitas estacionamiento?"
-    bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
-
-def filterCashOnly(message,bot,id):
-    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
-    message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
-    bot.sendMessage(chat_id=id, text="Para una mejor comodidad:")
-    bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())    
+       
 
 def filterTypeFood(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
-    message="¿Pagaras en efectivo o con algún tipo tarjeta?"
     bot.sendMessage(chat_id=id, text="¡Me antoje!")
+    message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
+    bot.sendMessage(chat_id=id, text="Para una mejor comodidad:")
     bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
+    writeConversation(str(id),"bot: "+message.lower()) 
 
 def filterProfesion(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
@@ -242,20 +218,14 @@ def identifiedOptionConversation(id): #retorna el identificador para cada
         return 2
     elif lastMessage =='¿odisfrutasmáslacomidadealgúnpaísenespecial?':
         return 3
-    elif lastMessage =='¿pagarasenefectivooconalgúntipotarjeta?':
-        return 4
     elif lastMessage =='¿tienesalgunadiscapacidadovasencompañíadealguienenestacondición?':
-        return 5
-    elif lastMessage =='¿necesitasestacionamiento?':
-        return 6
-    elif lastMessage =='¿fumas?':
-        return 7
+        return 4
     elif lastMessage =='¿tienespensadotomaralcoholhoy?':
-        return 8
+        return 5
     elif lastMessage =='¿vasconamigos?':
-        return 9
+        return 6
     else:
-        return 10
+        return 7
 
 def main():
     adminDB.createDB()
