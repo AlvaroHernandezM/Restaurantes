@@ -1,3 +1,5 @@
+import getSynonym as sy
+
 young = list(range(0, 40))
 adult = list(range(25, 75))
 old = list(range(60, 100))
@@ -9,6 +11,37 @@ fair = list(range(30, 50))
 expensive = list(range(45, 65))
 veryExpensive = list(range(60, 80))
 
+profession = {}
+synonyms = {}
+profession[1] = ['abogado', 'medico', 'ingeniero', 'arquitecto']
+profession[2] = ['profesor', 'odontologo', 'veterinario']
+profession[3] = ['contador', 'psicologo', 'enfermero']
+profession[4] = ['conductor', 'policia', 'secretario', 'mecanico']
+profession[5] = ['estudiante', 'desempleado', 'nada', 'vago']
+for x in range(1,6):
+	print(x)
+	for i in profession[x]:
+		if synonyms.get(x):
+			synonyms[x] += sy.synonyms(i)
+		else:
+			synonyms[x] = sy.synonyms(i)
+
+profession.update(synonyms)
+
+def getProfession(words):
+	for word in words:
+		if word in profession[5]:
+			return 5
+		elif word in profession[4]:
+			return 4
+		elif word in profession[3]:
+			return 3
+		elif word in profession[2]:
+			return 2
+		elif word in profession[1]:
+			return 1
+		else:
+			return 0
 
 def getAge(age):
 	if age >= 100:

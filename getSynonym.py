@@ -23,4 +23,5 @@ def synonyms(word):
     data = getData(html, 'div', 'class', 'synonyms-list-group')
     for element in data:
         listSynonyms.append(element.find('b').getText())
+    listSynonyms.append(word)
     return listSynonyms
