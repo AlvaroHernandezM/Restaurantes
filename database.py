@@ -14,6 +14,7 @@ def close(conn):
 # Crea una tabla
 def create_table(c, table_name, schema):
     c.execute('''CREATE TABLE {0} ({1});'''.format(table_name, schema))
+    print('tabla_creado'+table_name)
 
 # Se obtiene la informacion de las columnas
 def table_col_info(c, table_name, print_out):
@@ -35,12 +36,16 @@ def total_rows(c, table_name, print_out):
     return count[0][0]
 
 # Se inserta una nueva tupla en la tabla
-def insert_value(c, table_name, values):
+def insert_values(c, table_name, values):
     for row in values:
         c.execute('INSERT INTO {0} VALUES {1}'.format(table_name, str(row).replace('[', '(').replace(']', ')')))
 
 def insert_value(c,table_name,columns,values):
     c.execute('INSERT INTO {0} {1} VALUES {2}'.format(table_name,columns,str(values).replace('[', '(').replace(']', ')')))
+
+#def insert_age(c,table_name,columns,values):
+#    c.execute('INSERT OR IGNORE INTO {0} {1} VALUES {2}'.format(table_name,columns,str(values).replace('[', '(').replace(']', ')')))
+#    c.execute('UPDATE {0} SET '.format(table_name,columns,str(values).replace('[', '(').replace(']', ')')))
 # Se obtiene los datos almacenados en la tabla
 def show_table(c, table_name, print_out, columns):
     data = []

@@ -103,24 +103,23 @@ def filterHourFood(message, bot, id):
 def readLastMessageConversation(id): #retornar la ultima linea del archivo que tiene creado para el usuario
     return readLastLineConversation(str(id))[len(readLastLineConversation(str(id)))-1].lower().replace('bot: ','').replace(' ','').replace('\n','')
 
-
-
 def isValidateAge(age):
     return True if age>=15 and age<=100 else False
 
 def filterAge(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
+    print(resultPln)
     if(isOneDigit(resultPln)):
         value = int(resultPln[0])
         if(isValidateAge(value)):#es un rango de edad valido?
             #se debe asginar el valor difurso con este valor que es un solo digito     
-           # print('falta hallar valor difuso para: '+str(value))
+            print('falta hallar valor difuso para: '+str(value))
             #se continua con la conversación porque ya tomo el valor difuso
             valueFuzzy = fl.getAge(value)
-            print (valueFuzzy)
+            print ('valor difguso: '+str(valueFuzzy))
             values = [int(id),valueFuzzy]
-            print (values)
-            adminDB.insertValue('(id,edad)','users',values)
+            print ('valores antes de db: '+str(values))
+            adminDB.insertValue('(id, edad)','users',values)
             message="¿Cuál es tu profesión o qué haces a diario?"
             bot.sendMessage(chat_id=id, text="¡Que bien! y cuentame:")
             bot.sendMessage(chat_id=id, text=message)

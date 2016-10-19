@@ -5,6 +5,7 @@ def createDB():
 	sqlite_file = 'botRestaurants.db'
 	conn, c = db.connect(sqlite_file)
 	try:
+		createTableKnowledge(c)
 		createTableCollective(c)
 		createTableExpert(c)
 		createTableUsers(c)
@@ -15,11 +16,13 @@ def createDB():
 def insertValue(columns,table_name,values):
 	sqlite_file = 'botRestaurants.db'
 	conn, c = db.connect(sqlite_file)
+	print('conenectado')
+	#print('columnas'+columns.replace('(','').replace(')',''))
+	print('columnas'+columns)
 	db.insert_value(c,table_name,columns,values)
 	showTable(c,table_name,columns.replace('(','').replace(')',''))
 	print('mostrar')
 	db.close(conn)
-	print('si pase')
 
 def createTableUsers(c):
 	table_name = 'users'
@@ -32,7 +35,7 @@ def createTableKnowledge(c):
 	schema = 'id integer,name text,cuisine text,price text,rating real,payment_cashonly text,open_24hrs text,parking text,smoking text,meal_breakfast text,meal_lunch text,meal_dinner text,alcohol text,groups_goodfor text,accessible_wheelchair text'
 	values = factual.filterTable(factual.chargeTable())
 	db.create_table(c, table_name, schema)
-	db.insert_value(c, table_name, values)
+	db.insert_values(c, table_name, values)
 	showTable(c, table_name,'*')
 
 def createTableCollective(c):
@@ -62,14 +65,17 @@ def createTableExpert(c):
 			[1,5,3]
 			]
 	db.create_table(c, table_name, schema)
-	db.insert_value(c, table_name, values)
+	db.insert_values(c, table_name, values)
 	showTable(c, table_name,'*')
 
 
 def showTable(c,table_name, columns):
 	#db.total_rows(c, table_name, True)
 	#db.table_col_info(c, table_name, True)
+	print('columnas: '+columns)
+	print('table nmae'+table_name)
 	db.show_table(c, table_name, True, columns)
+	print('fin')
 	#db.consultCountNull(c, table_name, 'cuisine')
 	#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
 
