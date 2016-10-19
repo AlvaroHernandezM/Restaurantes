@@ -92,13 +92,39 @@ def filterProfesion(message, bot, id):
 
 def filterHourFood(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
+    if(len(resultPln)==1):
+        if isMealBreakfast(resultPln[0]):
+            #se debe filtrar los restaurantes que tengan true en la bd knowledge
+            print('consulta de restaurante con true meal_breakfast')
+        elif isMealLunch(resultPln[0]):
+            #se debe filtrar los restaurantes que tengan true en la bd knowledge
+            print('consulta de restaurante con true meal_lunch')
+        elif isMealDinner(resultPln[0]):
+            #se debe filtrar los restaurantes que tengan true en la bd knowledge
+            print('consulta de restaurante con true meal_dinner')
+    else:
+        print('caso presentado')
+        print (resultPln)
+        message="¿Quieres desayuno, almuerzo o cena?"
+        bot.sendMessage(chat_id=id, text="¡Ops, revisa que tengas bien la escritura de lo que deseas comunicarme, se me dificultad entender!")
+        bot.sendMessage(chat_id=id, text=message)
+        writeConversation(str(id),"bot: "+message.lower())
+
     message="¿Cuál es el tipo de comida que más te gusta?"
     message2="¿o disfrutas más la comida de algún país en especial?"
     bot.sendMessage(chat_id=id, text="Ahora dime:")
     bot.sendMessage(chat_id=id, text=message)
     bot.sendMessage(chat_id=id, text=message2)
     writeConversation(str(id),"bot: "+message2.lower())
+
+def isMealBreakfast(text):
+    return pln.islistBreakfast(text)
+
+def isMealLunch(text):
+    return pln.islistLunch(text)
+
+def isMealDinner(text):
+    return pln.islistDinner(text)
 
 def readLastMessageConversation(id): #retornar la ultima linea del archivo que tiene creado para el usuario
     return readLastLineConversation(str(id))[len(readLastLineConversation(str(id)))-1].lower().replace('bot: ','').replace(' ','').replace('\n','')
@@ -108,14 +134,14 @@ def isValidateAge(age):
 
 def filterAge(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print(resultPln)
+    #print(resultPln)
     if(isOneDigit(resultPln)):
         value = int(resultPln[0])
         if(isValidateAge(value)):#es un rango de edad valido?
             #se debe asginar el valor difurso con este valor que es un solo digito     
             #se continua con la conversación porque ya tomo el valor difuso
             valueFuzzy = fl.getAge(value)
-            values = [int(id),valueFuzzy]
+            values = [int(id),value]
             adminDB.insertValue('(id, edad)','users',values)
             message="¿Cuál es tu profesión o qué haces a diario?"
             bot.sendMessage(chat_id=id, text="¡Que bien! y cuentame:")

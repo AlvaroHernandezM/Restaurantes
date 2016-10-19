@@ -213,3 +213,30 @@ user: 45
 bot: ¿cuál es tu profesión o qué haces a diario?
 user: estudio
 bot: ¿quieres desayuno, almuerzo o cena?
+bot: ¿qué edad tienes?
+user: tengo 30 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+bot: ¿qué edad tienes?
+user: 30
+bot: ¿cuál es tu profesión o qué haces a diario?
+bot: ¿qué edad tienes?
+user: 55
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: voy a ir a almorzar
+bot: ¿o disfrutas más la comida de algún país en especial?
+bot: ¿qué edad tienes?
+user: tengo 20 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: desayunaremos
+bot: ¿o disfrutas más la comida de algún país en especial?
+bot: ¿qué edad tienes?
+user: tengo 50 años
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: nada
+bot: ¿quieres desayuno, almuerzo o cena?
+user: cenita
+bot: ¿o disfrutas más la comida de algún país en especial?
