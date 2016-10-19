@@ -29,7 +29,7 @@ def createTableUsers(c):
 
 def createTableKnowledge(c):
 	table_name = 'knowledge'
-	schema = 'id integer,name text,cuisine text,price text,rating real,payment_cashonly text,open_24hrs text,parking text,smoking text,meal_breakfast text,meal_lunch text,meal_dinner text,alcohol text,groups_goodfor text,accessible_wheelchair text'
+	schema = 'id integer,name text,cuisine text,price text,rating real,meal_breakfast text,meal_lunch text,meal_dinner text,alcohol text,groups_goodfor text,accessible_wheelchair text'
 	values = factual.filterTable(factual.chargeTable())
 	db.create_table(c, table_name, schema)
 	db.insert_values(c, table_name, values)

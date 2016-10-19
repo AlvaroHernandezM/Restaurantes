@@ -240,3 +240,33 @@ user: nada
 bot: ¿quieres desayuno, almuerzo o cena?
 user: cenita
 bot: ¿o disfrutas más la comida de algún país en especial?
+bot: ¿qué edad tienes?
+user: hola 35
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: desayuno alvaro
+bot: ¿qué edad tienes?
+user: 45
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudiamos
+bot: ¿quieres desayuno, almuerzo o cena?
+user: desayuno alvaro
+bot: ¿quieres desayuno, almuerzo o cena?
+bot: ¿o disfrutas más la comida de algún país en especial?
+bot: ¿qué edad tienes?
+user: 25
+bot: ¿cuál es tu profesión o qué haces a diario?
+bot: ¿qué edad tienes?
+user: 43
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: almuerzo alvaro
+bot: ¿qué edad tienes?
+user: 45
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: desayuno alvaro
+bot: ¿o disfrutas más la comida de algún país en especial?

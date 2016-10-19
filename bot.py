@@ -91,40 +91,58 @@ def filterProfesion(message, bot, id):
     writeConversation(str(id),"bot: "+message.lower())
 
 def filterHourFood(message, bot, id):
-    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    if(len(resultPln)==1):
-        if isMealBreakfast(resultPln[0]):
-            #se debe filtrar los restaurantes que tengan true en la bd knowledge
-            print('consulta de restaurante con true meal_breakfast')
-        elif isMealLunch(resultPln[0]):
-            #se debe filtrar los restaurantes que tengan true en la bd knowledge
-            print('consulta de restaurante con true meal_lunch')
-        elif isMealDinner(resultPln[0]):
-            #se debe filtrar los restaurantes que tengan true en la bd knowledge
-            print('consulta de restaurante con true meal_dinner')
+    resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message)))) 
+    #se debe filtrar los restaurantes que tengan true en la bd knowledge
+    if verifyListBreakFast(resultPln):
+        print('consulta de restaurante con true meal_breakfast')
+        askTypeFood(id,bot)
+    elif verifyListLunch(resultPln):
+        print('consulta de restaurante con true meal_lunch')
+        askTypeFood(id,bot)
+    elif verifyListDinner(resultPln):
+        print('consulta de restaurante con true meal_dinner')
+        askTypeFood(id,bot)
     else:
-        print('caso presentado')
-        print (resultPln)
         message="¿Quieres desayuno, almuerzo o cena?"
         bot.sendMessage(chat_id=id, text="¡Ops, revisa que tengas bien la escritura de lo que deseas comunicarme, se me dificultad entender!")
         bot.sendMessage(chat_id=id, text=message)
         writeConversation(str(id),"bot: "+message.lower())
 
+def askTypeFood(id,bot):
     message="¿Cuál es el tipo de comida que más te gusta?"
     message2="¿o disfrutas más la comida de algún país en especial?"
     bot.sendMessage(chat_id=id, text="Ahora dime:")
     bot.sendMessage(chat_id=id, text=message)
     bot.sendMessage(chat_id=id, text=message2)
-    writeConversation(str(id),"bot: "+message2.lower())
+    writeConversation(str(id),"bot: "+message2.lower())    
 
-def isMealBreakfast(text):
-    return pln.islistBreakfast(text)
 
-def isMealLunch(text):
-    return pln.islistLunch(text)
+def verifyListBreakFast(values):
+    aux = 0
+    for word in values:
+        if pln.islistBreakfast(word):
+            return True
+        else:
+            pass
+    return False
 
-def isMealDinner(text):
-    return pln.islistDinner(text)
+def verifyListLunch(values):
+    aux = 0
+    for word in values:
+        if pln.islistLunch(word):
+            return True
+        else:
+            pass
+    return False
+
+def verifyListDinner(values):
+    aux = 0
+    for word in values:
+        if pln.islistDinner(word):
+            return True
+        else:
+            pass
+    return False
 
 def readLastMessageConversation(id): #retornar la ultima linea del archivo que tiene creado para el usuario
     return readLastLineConversation(str(id))[len(readLastLineConversation(str(id)))-1].lower().replace('bot: ','').replace(' ','').replace('\n','')
