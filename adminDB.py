@@ -16,12 +16,9 @@ def createDB():
 def insertValue(columns,table_name,values):
 	sqlite_file = 'botRestaurants.db'
 	conn, c = db.connect(sqlite_file)
-	print('conenectado')
 	#print('columnas'+columns.replace('(','').replace(')',''))
-	print('columnas'+columns)
 	db.insert_value(c,table_name,columns,values)
 	showTable(c,table_name,columns.replace('(','').replace(')',''))
-	print('mostrar')
 	db.close(conn)
 
 def createTableUsers(c):
@@ -72,10 +69,7 @@ def createTableExpert(c):
 def showTable(c,table_name, columns):
 	#db.total_rows(c, table_name, True)
 	#db.table_col_info(c, table_name, True)
-	print('columnas: '+columns)
-	print('table nmae'+table_name)
 	db.show_table(c, table_name, True, columns)
-	print('fin')
 	#db.consultCountNull(c, table_name, 'cuisine')
 	#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
 

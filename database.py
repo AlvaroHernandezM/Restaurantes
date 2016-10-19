@@ -20,7 +20,6 @@ def create_table(c, table_name, schema):
 def table_col_info(c, table_name, print_out):
     c.execute('PRAGMA TABLE_INFO({})'.format(table_name))
     info = c.fetchall()
-
     if print_out:
         print("\nColumn Info:\nID, Name, Type, NotNull, DefaultVal, PrimaryKey")
         for col in info:
