@@ -29,13 +29,54 @@ def listener(bot, update):
         bot.sendMessage(chat_id=id, text="No entender")
 def filterWithFriends(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
-    bot.sendMessage(chat_id=id, text="No tengo más preguntas, te recomiendo")
-    writeConversation(str(id),"bot: "+message.lower())
+    if(verifyWordPositive(resultPln)):
+        print('si va con amigos')
+        bot.sendMessage(chat_id=id, text="No tengo más preguntas, te recomiendo")
+        writeConversation(str(id),"bot: "+message.lower())
+    elif(verifyWordNegative(resultPln)):
+        print('no va con amigos')
+        bot.sendMessage(chat_id=id, text="No tengo más preguntas, te recomiendo")
+        writeConversation(str(id),"bot: "+message.lower())
+    else:
+        message="¿Vas con amigos?"
+        askAgainPositiveNegative(bot,id,message)
+
+def askAgainPositiveNegative(bot,id,question):
+    bot.sendMessage(chat_id=id, text="¡Ops, no puedo entenderte, menciona una palabra afirmativa o negativa para conocer tu respuesta!")
+    bot.sendMessage(chat_id=id, text=question)
+    writeConversation(str(id),"bot: "+question.lower())
+
+def verifyWordPositive(resultPln):
+    for word in resultPln:
+        if(pln.isWordAfirmative(word)):
+            return True
+        else:
+            pass
+    return False
+
+def verifyWordNegative(resultPln):
+    for word in resultPln:
+        if(pln.isWordNegative(word)):
+            return True
+        else:
+            pass
+    return False
 
 def filterAlcohol(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
+    resultPln.remove('mi')
+    resultPln.remove('mis')
+    if(verifyWordPositive(resultPln)):
+        print('si tomará alcohol')
+        askWithFriends(bot,id)
+    elif(verifyWordNegative(resultPln)):
+        print('no tomará alcohol')
+        askWithFriends(bot,id)
+    else:
+        message="¿Tienes pensado tomar alcohol hoy?"
+        askAgainPositiveNegative(bot,id,message)
+    
+def askWithFriends(bot,id):
     message="¿Vas con amigos?"
     bot.sendMessage(chat_id=id, text="Y como última pregunta:")
     bot.sendMessage(chat_id=id, text=message)
@@ -44,10 +85,20 @@ def filterAlcohol(message,bot,id):
 def filterDisability(message,bot,id): #acesso para personas con discapacidad
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
+    if(verifyWordPositive(resultPln)):
+        print('si necesita restaurante para discapacitados')
+        askAlcohol(bot,id)
+    elif(verifyWordNegative(resultPln)):
+        print('no necesita restaurante para discapacitador')
+        askAlcohol(bot,id)
+    else:
+        message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
+        askAgainPositiveNegative(bot,id,message)
+
+def askAlcohol(bot,id):       
     message="¿Tienes pensado tomar alcohol hoy?"
     bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
-       
+    writeConversation(str(id),"bot: "+message.lower())     
 
 def filterTypeFood(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
