@@ -37,7 +37,7 @@ def createTableKnowledge(c):
 
 def createTableCollective(c):
 	table_name = 'collective'
-	schema = 'cuisine text,edad integer'
+	schema = 'edad integer, cuisine1 real, cuisine2 real, cuisine3 real, cuisine4 real, cuisine5 real, cuisine6 real, cuisine7 real, cuisine8 real, cuisine9 real, cuisine10 real, cuisine11 real'
 	db.create_table(c, table_name, schema)
 	showTable(c, table_name,'*')
 

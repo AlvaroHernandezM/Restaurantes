@@ -177,6 +177,18 @@ def readLastMessageConversation(id): #retornar la ultima linea del archivo que t
 def isValidateAge(age):
     return True if age>=10 and age<=100 else False
 
+def askProfesion(id,bot):
+    message="¿Cuál es tu profesión o qué haces a diario?"
+    bot.sendMessage(chat_id=id, text="¡Que bien! y cuentame:")
+    bot.sendMessage(chat_id=id, text=message)
+    writeConversation(str(id),"bot: "+message.lower())
+
+def askAgainAgeError(bot,id,error):
+    message="¿Qué edad tienes?"
+    bot.sendMessage(chat_id=id, text=error)
+    bot.sendMessage(chat_id=id, text=message)
+    writeConversation(str(id),"bot: "+message.lower())
+
 def filterAge(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     #print(resultPln)
@@ -185,41 +197,30 @@ def filterAge(message, bot, id):
         if(isValidateAge(value)):#es un rango de edad valido?
             #se debe asginar el valor difurso con este valor que es un solo digito     
             #se continua con la conversación porque ya tomo el valor difuso
-            valueFuzzy = fl.getAge(value)
+            #valueFuzzy = fl.getAge(value)
             values = [int(id),value]
             adminDB.insertValue('(id, edad)','users',values)
-            message="¿Cuál es tu profesión o qué haces a diario?"
-            bot.sendMessage(chat_id=id, text="¡Que bien! y cuentame:")
-            bot.sendMessage(chat_id=id, text=message)
-            writeConversation(str(id),"bot: "+message.lower())
+            askProfesion(id,bot)
         else:
-            message="¿Qué edad tienes?"
-            bot.sendMessage(chat_id=id, text="¡Ops, tu edad no se encuentra en el rango de 15-100 años, ingresa tu edad correctamente!")
-            bot.sendMessage(chat_id=id, text=message)
-            writeConversation(str(id),"bot: "+message.lower())
+            error = "¡Ops, tu edad no se encuentra en el rango de 15-100 años, ingresa tu edad correctamente!"
+            askAgainAgeError(bot,id,error)
     else:
         if(len(findDigits(resultPln))>0):#se verifica si si tiene digitos
             if(isOnlyDigits(resultPln)):#se verifica que solos ean digitos
                 #se encontro mas de un numero por lo que se deberia notificar el usuario que digite d enuev
-                message="¿Qué edad tienes?"
-                bot.sendMessage(chat_id=id, text="¡Ops, cuando ingresas más de una cadena de números no puedo identificar tu edad, vuelve a intentarlo!")
-                bot.sendMessage(chat_id=id, text=message)
-                writeConversation(str(id),"bot: "+message.lower())
+                error="¡Ops, cuando ingresas más de una cadena de números no puedo identificar tu edad, vuelve a intentarlo!"
+                askAgainAgeError(bot,id,error)
             else:#se extrae el primero valor digito de todos los texto
                 value = int(firstDigit(resultPln))
-                print('falta hallar valor difuso para: '+str(value))
-                #se continua con la conversación porque ya tomo el valor difuso
-                message="¿Cuál es tu profesión o qué haces a diario?"
-                bot.sendMessage(chat_id=id, text="¡Que bien! y cuentame:")
-                bot.sendMessage(chat_id=id, text=message)
-                writeConversation(str(id),"bot: "+message.lower())
+                values = [int(id),value]
+                adminDB.insertValue('(id, edad)','users',values)
+                askProfesion(id,bot)
         else: 
             #no se esta reconociendo ningun digito pero esta palabra paso el pln
             #print(resultPln)
-            message="¿Qué edad tienes?"
-            bot.sendMessage(chat_id=id, text="¡Ops, lo siento pero aún no se reconoce la fecha por texto, ingresa tu edad como un número!")
-            bot.sendMessage(chat_id=id, text=message)
-            writeConversation(str(id),"bot: "+message.lower())
+            error="¡Ops, lo siento pero aún no se reconoce la fecha por texto, ingresa tu edad como un número!"
+            askAgainAgeError(bot,id,error)
+            
 
 def firstDigit(resultPln):
     for word in resultPln:
