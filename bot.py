@@ -31,11 +31,11 @@ def filterWithFriends(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     if(verifyWordPositive(resultPln)):
         print('si va con amigos')
-        bot.sendMessage(chat_id=id, text="No tengo más preguntas, te recomiendo")
+        bot.sendMessage(chat_id=id, text="Te recomiendo")
         writeConversation(str(id),"bot: "+message.lower())
     elif(verifyWordNegative(resultPln)):
         print('no va con amigos')
-        bot.sendMessage(chat_id=id, text="No tengo más preguntas, te recomiendo")
+        bot.sendMessage(chat_id=id, text="Te recomiendo")
         writeConversation(str(id),"bot: "+message.lower())
     else:
         message="¿Vas con amigos?"

@@ -14,7 +14,6 @@ def close(conn):
 # Crea una tabla
 def create_table(c, table_name, schema):
     c.execute('''CREATE TABLE {0} ({1});'''.format(table_name, schema))
-    print('tabla_creado'+table_name)
 
 # Se obtiene la informacion de las columnas
 def table_col_info(c, table_name, print_out):
@@ -43,7 +42,6 @@ def insert_value(c,table_name,columns,values):
     valuesAux = str(values).split(',')
     valueId = valuesAux[0].replace('[','')
     valueEdad = valuesAux[1].replace(']','')
-    print(valueId+' - '+valueEdad)
     try:
         c.execute('DELETE FROM {0} WHERE id={1}'.format(table_name,valueId))
     except:

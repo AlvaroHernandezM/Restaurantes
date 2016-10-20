@@ -25,7 +25,7 @@ def createTableUsers(c):
 	table_name = 'users'
 	schema = 'id integer,edad integer,profesion integer'
 	db.create_table(c, table_name, schema)
-	showTable(c, table_name,'*')
+	#showTable(c, table_name,'*')
 
 def createTableKnowledge(c):
 	table_name = 'knowledge'
@@ -33,13 +33,13 @@ def createTableKnowledge(c):
 	values = factual.filterTable(factual.chargeTable())
 	db.create_table(c, table_name, schema)
 	db.insert_values(c, table_name, values)
-	showTable(c, table_name,'*')
+	#showTable(c, table_name,'*')
 
 def createTableCollective(c):
 	table_name = 'collective'
 	schema = 'edad integer, cuisine1 real, cuisine2 real, cuisine3 real, cuisine4 real, cuisine5 real, cuisine6 real, cuisine7 real, cuisine8 real, cuisine9 real, cuisine10 real, cuisine11 real'
 	db.create_table(c, table_name, schema)
-	showTable(c, table_name,'*')
+	#showTable(c, table_name,'*')
 
 
 def createTableExpert(c):
@@ -63,7 +63,7 @@ def createTableExpert(c):
 			]
 	db.create_table(c, table_name, schema)
 	db.insert_values(c, table_name, values)
-	showTable(c, table_name,'*')
+	#showTable(c, table_name,'*')
 
 
 def showTable(c,table_name, columns):
