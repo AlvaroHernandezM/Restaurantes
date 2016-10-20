@@ -16,14 +16,52 @@ def createDB():
 def insertValue(columns,table_name,values):
 	sqlite_file = 'botRestaurants.db'
 	conn, c = db.connect(sqlite_file)
-	#print('columnas'+columns.replace('(','').replace(')',''))
 	db.insert_value(c,table_name,columns,values)
-	showTable(c,table_name,columns.replace('(','').replace(')',''))
+	db.close(conn)
+
+def getRangeAge(value):
+	sqlite_file = 'botRestaurants.db'
+	table_name = 'users'
+	parameter = 'id'
+	conn, c = db.connect(sqlite_file)
+	data = db.consult(c, table_name, parameter, value)
+	db.close(conn)
+	return data[0][2]
+
+def getRangePrice(value1, value2):
+	sqlite_file = 'botRestaurants.db'
+	table_name = 'expert'
+	parameter1 = 'profesion'
+	parameter2 = 'edad'
+	conn, c = db.connect(sqlite_file)
+	data = db.consult2(c, table_name, parameter1, value1, parameter2, value2)
+	db.close(conn)
+	return data[0][0]
+
+def getRestaurantsPrice(value):
+	sqlite_file = 'botRestaurants.db'
+	table_name = 'knowledge'
+	parameter = 'price'
+	conn, c = db.connect(sqlite_file)
+	try:
+		dropRestaurantsView()
+	except:
+		pass
+	db.createViewRestaurants(c, table_name, parameter, value)
+	data = db.consult(c, table_name, parameter, value)
+	db.close(conn)
+	return data
+
+def dropRestaurantsView():
+	sqlite_file = 'botRestaurants.db'
+	conn, c = db.connect(sqlite_file)
+	viewName = 'restaurants_view'
+	db.dropView(c, viewName)
 	db.close(conn)
 
 def createTableUsers(c):
 	table_name = 'users'
-	schema = 'id integer,edad integer,profesion integer'
+	schema = 'id integer, edad integer, rangoEdad integer, profesion text, rangoProfesion integer'
 	db.create_table(c, table_name, schema)
 	#showTable(c, table_name,'*')
 

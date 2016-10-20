@@ -114,11 +114,22 @@ def filterTypeFood(message,bot,id):
 
 def filterProfesion(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln) #continuar con los sinonimos de estudiar (estudio)
-    message="¿Quieres desayuno, almuerzo o cena?"
-    bot.sendMessage(chat_id=id, text="¡Muy buena profesión!, para tener más certeza:")
-    bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())
+    valueProfession, rangeProfession = fl.getProfession(resultPln)
+    values = [int(id), valueProfession, rangeProfession]
+    adminDB.insertValue('(id, profesion, rangoProfesion)', 'users', values)
+    rangeAge = adminDB.getRangeAge(int(id))
+    rangePrice = adminDB.getRangePrice(rangeProfession, rangeAge)
+    restaurants = adminDB.getRestaurantsPrice(rangePrice)
+    if len(restaurants)<4:
+        bot.sendMessage(chat_id=id, text="Deberias ir a")
+        writeConversation(str(id),"bot: "+message.lower())
+        bot.sendMessage(chat_id=id, text=restaurants[0][1])
+        adminDB.dropRestaurantsView()
+    else:
+        message="¿Quieres desayuno, almuerzo o cena?"
+        bot.sendMessage(chat_id=id, text="¡Muy buena profesión!, para tener más certeza:")
+        bot.sendMessage(chat_id=id, text=message)
+        writeConversation(str(id),"bot: "+message.lower())
 
 def filterHourFood(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message)))) 
@@ -200,9 +211,9 @@ def filterAge(message, bot, id):
         if(isValidateAge(value)):#es un rango de edad valido?
             #se debe asginar el valor difurso con este valor que es un solo digito     
             #se continua con la conversación porque ya tomo el valor difuso
-            #valueFuzzy = fl.getAge(value)
-            values = [int(id),value]
-            adminDB.insertValue('(id, edad)','users',values)
+            rangeAge = fl.getAge(value)
+            values = [int(id), value, rangeAge]
+            adminDB.insertValue('(id, edad, rangoEdad)','users',values)
             askProfesion(id,bot)
         else:
             error = "¡Ops, tu edad no se encuentra en el rango de 12-100 años, ingresa tu edad correctamente!"
@@ -283,7 +294,11 @@ def identifiedOptionConversation(id): #retorna el identificador para cada
         return 7
 
 def main():
+    print('Creando base de datos.')
     adminDB.createDB()
+    print('Inicializando sinonimos.')
+    fl.initProfession()
+    print('Bot iniciado')
     updater = Updater('205961193:AAE4XZ9K6VcdfnzM7DvTuI1JsIF_SVKQ_Fo')
     dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
