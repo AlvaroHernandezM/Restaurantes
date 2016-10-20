@@ -30,6 +30,7 @@ def initProfession():
 	profession.update(synonyms)
 
 def getProfession(words):
+	print(words)
 	for word in words:
 		if word in profession[5]:
 			return word, 5

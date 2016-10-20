@@ -113,6 +113,14 @@ def createTableExpert(c):
 	#showTable(c, table_name,'*')
 
 
+def showTableRestaurants():
+	sqlite_file = 'botRestaurants.db'
+	table_name = 'restaurants_view'
+	conn, c = db.connect(sqlite_file)
+	columns = '*'
+	#db.total_rows(c, table_name, True)
+	#db.table_col_info(c, table_name, True)
+	return db.show_table(c, table_name, False, columns)
 def showTable(c,table_name, columns):
 	#db.total_rows(c, table_name, True)
 	#db.table_col_info(c, table_name, True)
@@ -120,5 +128,5 @@ def showTable(c,table_name, columns):
 	#db.consultCountNull(c, table_name, 'cuisine')
 	#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
 
-#createDB()
+#print(showTableRestaurants())
 

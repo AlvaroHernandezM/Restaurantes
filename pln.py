@@ -44,7 +44,7 @@ def islistLunch(text):
 	return True if text in listLunch else False
 
 def islistDinner(text):
-	listDinner = ['cenar','cena','sena','cenare','cenaré','cenaremos','ceno','cenita','cenota','cenará','cenara']
+	listDinner = ['onces','once','cenar','cena','sena','cenare','cenaré','cenaremos','ceno','cenita','cenota','cenará','cenara']
 	return True if text in listDinner else False
 
 def deleteSigne(word):
@@ -55,7 +55,7 @@ def isTypeFood1(word):
 	return True if word in listTypeFood else False	
 
 def isTypeFood2(word):
-	listTypeFood = ['italiano', 'italia', 'europe', 'griega', 'grecia', 'griego', 'mediterráneo',  'mediterraneo', 'francés', 'francesa', 'alemana', 'aleman', 'español', 'española']
+	listTypeFood = ['italiano', 'italia', 'italiana', 'europe', 'griega', 'grecia', 'griego', 'mediterráneo',  'mediterraneo', 'francés', 'francesa', 'alemana', 'aleman', 'español', 'española']
 	return True if word in listTypeFood else False
 
 def isTypeFood3(word):
