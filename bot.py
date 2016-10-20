@@ -30,13 +30,17 @@ def listener(bot, update):
 def filterWithFriends(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     if(verifyWordPositive(resultPln)):
-        print('si va con amigos')
-        bot.sendMessage(chat_id=id, text="Te recomiendo")
+        restaurants = adminDB.getRestaurants('groups_goodfor', 'False')
+        bot.sendMessage(chat_id=id, text="Deberias ir a")
         writeConversation(str(id),"bot: "+message.lower())
+        bot.sendMessage(chat_id=id, text=restaurants[0][1])
+        adminDB.dropRestaurantsView()
     elif(verifyWordNegative(resultPln)):
-        print('no va con amigos')
-        bot.sendMessage(chat_id=id, text="Te recomiendo")
+        restaurants = adminDB.getRestaurants('groups_goodfor', 'True')
+        bot.sendMessage(chat_id=id, text="Deberias ir a")
         writeConversation(str(id),"bot: "+message.lower())
+        bot.sendMessage(chat_id=id, text=restaurants[0][1])
+        adminDB.dropRestaurantsView()
     else:
         message="¿Vas con amigos?"
         askAgainPositiveNegative(bot,id,message)
@@ -70,11 +74,23 @@ def filterAlcohol(message,bot,id):
     except:
         pass
     if(verifyWordPositive(resultPln)):
-        print('si tomará alcohol')
-        askWithFriends(bot,id)
+        restaurants = adminDB.getRestaurants('alcohol', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askWithFriends(bot,id)
     elif(verifyWordNegative(resultPln)):
-        print('no tomará alcohol')
-        askWithFriends(bot,id)
+        restaurants = adminDB.getRestaurants('alcohol', 'True')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askWithFriends(bot,id)
     else:
         message="¿Tienes pensado tomar alcohol hoy?"
         askAgainPositiveNegative(bot,id,message)
@@ -89,11 +105,23 @@ def filterDisability(message,bot,id): #acesso para personas con discapacidad
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
     if(verifyWordPositive(resultPln)):
-        print('si necesita restaurante para discapacitados')
-        askAlcohol(bot,id)
+        restaurants = adminDB.getRestaurants('accesible_wheelchair', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askAlcohol(bot,id)
     elif(verifyWordNegative(resultPln)):
-        print('no necesita restaurante para discapacitador')
-        askAlcohol(bot,id)
+        restaurants = adminDB.getRestaurants('accesible_wheelchair', 'True')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askAlcohol(bot,id)
     else:
         message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
         askAgainPositiveNegative(bot,id,message)
