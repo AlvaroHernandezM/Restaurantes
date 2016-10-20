@@ -105,7 +105,7 @@ def filterDisability(message,bot,id): #acesso para personas con discapacidad
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     print (resultPln)
     if(verifyWordPositive(resultPln)):
-        restaurants = adminDB.getRestaurants('accesible_wheelchair', 'False')
+        restaurants = adminDB.getRestaurants('accessible_wheelchair', 'False')
         if len(restaurants)<4:
             bot.sendMessage(chat_id=id, text="Deberias ir a")
             writeConversation(str(id),"bot: "+message.lower())
@@ -114,7 +114,7 @@ def filterDisability(message,bot,id): #acesso para personas con discapacidad
         else:
             askAlcohol(bot,id)
     elif(verifyWordNegative(resultPln)):
-        restaurants = adminDB.getRestaurants('accesible_wheelchair', 'True')
+        restaurants = adminDB.getRestaurants('accessible_wheelchair', 'True')
         if len(restaurants)<4:
             bot.sendMessage(chat_id=id, text="Deberias ir a")
             writeConversation(str(id),"bot: "+message.lower())

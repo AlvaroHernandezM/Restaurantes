@@ -152,3 +152,38 @@ user: estudio
 bot: ¿quieres desayuno, almuerzo o cena?
 user: desayuno
 bot: desayuno
+bot: ¿qué edad tienes?
+user: 45
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: cena
+bot: ¿o disfrutas más la comida de algún país en especial?
+user: amerinaca
+bot: ¿tienes alguna discapacidad o vas en compañía de alguien en esta condición?
+user: si
+bot: ¿qué edad tienes?
+user: 45
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: cena
+bot: ¿o disfrutas más la comida de algún país en especial?
+user: sss
+bot: ¿tienes alguna discapacidad o vas en compañía de alguien en esta condición?
+user: si
+bot: ¿qué edad tienes?
+user: 45
+bot: ¿cuál es tu profesión o qué haces a diario?
+user: estudio
+bot: ¿quieres desayuno, almuerzo o cena?
+user: cena
+bot: ¿o disfrutas más la comida de algún país en especial?
+user: ssss
+bot: ¿tienes alguna discapacidad o vas en compañía de alguien en esta condición?
+user: si
+bot: ¿tienes pensado tomar alcohol hoy?
+user: si
+bot: ¿vas con amigos?
+user: si
+bot: si

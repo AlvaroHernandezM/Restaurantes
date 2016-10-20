@@ -121,3 +121,4 @@ def showTable(c,table_name, columns):
 	#alcohol text,kids_goodfor text,groups_goodfor text,accessible_wheelchair text,options_vegetarian text,options_vegan text,options_glutenfree text,options_organic text,options_healthy text,options_lowfat
 
 #createDB()
+
