@@ -115,34 +115,58 @@ def filterTypeFood(message,bot,id):
 def filterProfesion(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     valueProfession, rangeProfession = fl.getProfession(resultPln)
-    values = [int(id), valueProfession, rangeProfession]
-    adminDB.insertValue('(id, profesion, rangoProfesion)', 'users', values)
-    rangeAge = adminDB.getRangeAge(int(id))
-    rangePrice = adminDB.getRangePrice(rangeProfession, rangeAge)
-    restaurants = adminDB.getRestaurantsPrice(rangePrice)
-    if len(restaurants)<4:
-        bot.sendMessage(chat_id=id, text="Deberias ir a")
-        writeConversation(str(id),"bot: "+message.lower())
-        bot.sendMessage(chat_id=id, text=restaurants[0][1])
-        adminDB.dropRestaurantsView()
-    else:
-        message="¿Quieres desayuno, almuerzo o cena?"
-        bot.sendMessage(chat_id=id, text="¡Muy buena profesión!, para tener más certeza:")
+    if rangeProfession == 0:
+        message="¿Cuál es tu profesión o qué haces a diario?"
+        bot.sendMessage(chat_id=id, text="¡Ops, revisa que tengas bien la escritura de lo que deseas comunicarme, se me dificultad entender!")
         bot.sendMessage(chat_id=id, text=message)
         writeConversation(str(id),"bot: "+message.lower())
+    else:
+        values = [int(id), valueProfession, rangeProfession]
+        adminDB.insertValue('(id, profesion, rangoProfesion)', 'users', values)
+        rangeAge = adminDB.getRangeAge(int(id))
+        rangePrice = adminDB.getRangePrice(rangeProfession, rangeAge)
+        restaurants = adminDB.getRestaurantsPrice(rangePrice)
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            message="¿Quieres desayuno, almuerzo o cena?"
+            bot.sendMessage(chat_id=id, text="¡Muy buena profesión!, para tener más certeza:")
+            bot.sendMessage(chat_id=id, text=message)
+            writeConversation(str(id),"bot: "+message.lower())
 
 def filterHourFood(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message)))) 
     #se debe filtrar los restaurantes que tengan true en la bd knowledge
     if verifyListBreakFast(resultPln):
-        print('consulta de restaurante con true meal_breakfast')
-        askTypeFood(id,bot)
+        restaurants = adminDB.getRestaurants('meal_breakfast', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askTypeFood(id,bot)
     elif verifyListLunch(resultPln):
-        print('consulta de restaurante con true meal_lunch')
-        askTypeFood(id,bot)
+        restaurants = adminDB.getRestaurants('meal_lunch', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askTypeFood(id,bot)
     elif verifyListDinner(resultPln):
-        print('consulta de restaurante con true meal_dinner')
-        askTypeFood(id,bot)
+        restaurants = adminDB.getRestaurants('meal_dinner', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askTypeFood(id,bot)
     else:
         message="¿Quieres desayuno, almuerzo o cena?"
         bot.sendMessage(chat_id=id, text="¡Ops, revisa que tengas bien la escritura de lo que deseas comunicarme, se me dificultad entender!")

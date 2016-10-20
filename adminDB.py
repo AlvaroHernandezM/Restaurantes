@@ -52,6 +52,15 @@ def getRestaurantsPrice(value):
 	db.close(conn)
 	return data
 
+def getRestaurants(parameter, value):
+	sqlite_file = 'botRestaurants.db'
+	table_name = 'restaurants_view'
+	conn, c = db.connect(sqlite_file)
+	db.updateViewRestaurants(c, parameter, value)
+	data = db.show_table(c, table_name, False, '*')
+	db.close(conn)
+	return data
+
 def dropRestaurantsView():
 	sqlite_file = 'botRestaurants.db'
 	conn, c = db.connect(sqlite_file)

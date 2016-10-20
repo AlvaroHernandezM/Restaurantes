@@ -60,11 +60,14 @@ def show_table(c, table_name, print_out, columns):
     return data
 
 def createViewRestaurants(c, table_name, parameter, value):
-    c.execute("CREATE VIEW restaurants_view AS SELECT * FROM {0} WHERE {1} = {2}".format(table_name, parameter, value))
+    c.execute("CREATE TABLE restaurants_view AS SELECT * FROM {0} WHERE {1} = {2}".format(table_name, parameter, value))
+
+def updateViewRestaurants(c, parameter, value):
+    c.execute("DELETE FROM restaurants_view WHERE {0} = '{1}'".format(parameter, value))
 
 def dropView(c, view_name):
     try:
-        c.execute('DROP VIEW {0}'.format(view_name))
+        c.execute('DROP TABLE {0}'.format(view_name))
     except:
         pass
 
