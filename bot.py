@@ -64,8 +64,11 @@ def verifyWordNegative(resultPln):
 
 def filterAlcohol(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    resultPln.remove('mi')
-    resultPln.remove('mis')
+    try:
+        resultPln.remove('mi')
+        resultPln.remove('mis')
+    except:
+        pass
     if(verifyWordPositive(resultPln)):
         print('si tomará alcohol')
         askWithFriends(bot,id)
@@ -202,7 +205,7 @@ def filterAge(message, bot, id):
             adminDB.insertValue('(id, edad)','users',values)
             askProfesion(id,bot)
         else:
-            error = "¡Ops, tu edad no se encuentra en el rango de 15-100 años, ingresa tu edad correctamente!"
+            error = "¡Ops, tu edad no se encuentra en el rango de 12-100 años, ingresa tu edad correctamente!"
             askAgainAgeError(bot,id,error)
     else:
         if(len(findDigits(resultPln))>0):#se verifica si si tiene digitos
