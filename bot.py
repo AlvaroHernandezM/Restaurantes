@@ -87,7 +87,6 @@ def askWithFriends(bot,id):
 
 def filterDisability(message,bot,id): #acesso para personas con discapacidad
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
     if(verifyWordPositive(resultPln)):
         print('si necesita restaurante para discapacitados')
         askAlcohol(bot,id)
@@ -101,17 +100,69 @@ def filterDisability(message,bot,id): #acesso para personas con discapacidad
 def askAlcohol(bot,id):       
     message="¿Tienes pensado tomar alcohol hoy?"
     bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower())     
+    writeConversation(str(id),"bot: "+message.lower())
+
+def listTypeFood(type):
+    print('tipo ingresado: '+str(type))
+    if(type==1):
+        return ['American','Traditional','Contemporary','Latin American','Southern']
+    elif(type==2):
+        return ['Italian','European','Mediterranean','French']
+    elif(type==3):
+        return ['Asian','Japanese']
+    elif(type==4):
+        return ['Sushi','Seafood']
+    elif(type==5):
+        return ['Cafe','Coffee','Pub Food','Tea']
+    elif(type==6):
+        return ['Sandwiches','Pizza','Fast Food','Burgers']
+    elif(type==7):
+        return ['Grill','Barbecue','Steak']
+    elif(type==8):
+        return ['Bakery']
+    else:
+        print('no esta en un rango de 1 a 11, verificar porque paso')
 
 def filterTypeFood(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
-    print (resultPln)
-    bot.sendMessage(chat_id=id, text="¡Me antoje!")
-    message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
-    bot.sendMessage(chat_id=id, text="Para una mejor comodidad:")
-    bot.sendMessage(chat_id=id, text=message)
-    writeConversation(str(id),"bot: "+message.lower()) 
+    typeFood = verifyTypeFood(resultPln)
+    if(typeFood!=12):
+        print(listTypeFood(typeFood))
+        bot.sendMessage(chat_id=id, text="¡Me antoje!")
+        message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
+        bot.sendMessage(chat_id=id, text="Para una mejor comodidad:")
+        bot.sendMessage(chat_id=id, text=message)
+        writeConversation(str(id),"bot: "+message.lower())
+    else:
+        message="¿Cuál es el tipo de comida que más te gusta?"
+        message2="¿o disfrutas más la comida de algún país en especial?"
+        bot.sendMessage(chat_id=id, text="!Ops, lo siento pero el tipo de comida que ingresas no es claro, vuelve a intentarlo!")
+        bot.sendMessage(chat_id=id, text=message)
+        bot.sendMessage(chat_id=id, text=message2)
+        writeConversation(str(id),"bot: "+message2.lower())          
+     
 
+def verifyTypeFood(resultPln):
+    for word in resultPln:
+        if(pln.isTypeFood1(word)):
+            return 1
+        elif(pln.isTypeFood2(word)):
+            return 2
+        elif(pln.isTypeFood3(word)):
+            return 3
+        elif(pln.isTypeFood4(word)):
+            return 4
+        elif(pln.isTypeFood5(word)):
+            return 5
+        elif(pln.isTypeFood6(word)):
+            return 6
+        elif(pln.isTypeFood7(word)):
+            return 7
+        elif(pln.isTypeFood8(word)):
+            return 8
+        else:
+            pass
+    return 12
 def filterProfesion(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     valueProfession, rangeProfession = fl.getProfession(resultPln)

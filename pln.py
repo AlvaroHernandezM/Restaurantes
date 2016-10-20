@@ -6,6 +6,8 @@ def clearEmptyWords(text):
 	stopwords.remove('sí')
 	stopwords.remove('mi')
 	stopwords.remove('mis')
+	stopwords.remove('no')
+	#print(stopwords)
 	#stopwords.remove('A veces')
 	stopwords = addMoreStopWords(stopwords)
 	return list(nltk.FreqDist(w.lower() for w in text if w not in stopwords).keys())
@@ -48,5 +50,31 @@ def islistDinner(text):
 def deleteSigne(word):
 	return word.replace(',','').replace('-','').replace(';','').replace('.','').replace(':','').replace('*','').replace(':','').replace('_','')
 
+def isTypeFood1(word):
+	listTypeFood = ['americana', 'america', 'tradicional', 'nacional', 'mexicana', 'mexico', 'méxico', 'latino', 'sur', 'chile', 'argentina', 'brasil', 'ecuador', 'venezuela', 'peru', 'perú',  'bolivia', 'uruguay', 'paraguay','caribe']
+	return True if word in listTypeFood else False	
 
-#print(filterSignes(list(clearEmptyWords(separateText("hola , hoy estoy bien pero solo tengo hasta ahora 15 años de edad.")))))
+def isTypeFood2(word):
+	listTypeFood = ['italiano', 'italia', 'europe', 'griega', 'grecia', 'griego', 'mediterráneo',  'mediterraneo', 'francés', 'francesa', 'alemana', 'aleman', 'español', 'española']
+	return True if word in listTypeFood else False
+
+def isTypeFood3(word):
+	listTypeFood = ['asia', 'asiatica', 'japonesa', 'japon', 'thailandesa', 'thailandia', 'china']
+	return True if word in listTypeFood else False
+def isTypeFood4(word):
+	listTypeFood = [ 'mar', 'pescados', 'mariscos', 'sushi', 'pez', 'pescado', 'langostas', 'langosta']
+	return True if word in listTypeFood else False
+def isTypeFood5(word):
+	listTypeFood = ['cafe' , 'café', 'bebida', 'bebidas', 'batido', 'batidos', 'liquido', 'te']
+	return True if word in listTypeFood else False
+def isTypeFood6(word):
+	listTypeFood = ['alas', 'sandwich', 'pizza', 'rapida', 'rápida', 'rápidas', 'rapidas', 'hamburguesa','hamburguesas', 'donas', 'donuts', 'perros', 'perro', 'caliente']
+	return True if word in listTypeFood else False
+def isTypeFood7(word):
+	listTypeFood = ['parrilla', 'carne', 'asada', 'pollo', 'filete', 'churrasco', 'pechuga', 'cerdo']
+	return True if word in listTypeFood else False
+def isTypeFood8(word):
+	listTypeFood = [ 'pan', 'panaderia', 'roscon', 'roscones', 'roscón', 'galletas', 'galleta', 'panificadora']
+	return True if word in listTypeFood else False
+
+#print(filterSignes(list(clearEmptyWords(separateText("no")))))
