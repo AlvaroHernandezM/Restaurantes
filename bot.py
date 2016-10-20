@@ -30,13 +30,17 @@ def listener(bot, update):
 def filterWithFriends(message,bot,id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     if(verifyWordPositive(resultPln)):
-        print('si va con amigos')
-        bot.sendMessage(chat_id=id, text="Te recomiendo")
+        restaurants = adminDB.getRestaurants('groups_goodfor', 'False')
+        bot.sendMessage(chat_id=id, text="Deberias ir a")
         writeConversation(str(id),"bot: "+message.lower())
+        bot.sendMessage(chat_id=id, text=restaurants[0][1])
+        adminDB.dropRestaurantsView()
     elif(verifyWordNegative(resultPln)):
-        print('no va con amigos')
-        bot.sendMessage(chat_id=id, text="Te recomiendo")
+        restaurants = adminDB.getRestaurants('groups_goodfor', 'True')
+        bot.sendMessage(chat_id=id, text="Deberias ir a")
         writeConversation(str(id),"bot: "+message.lower())
+        bot.sendMessage(chat_id=id, text=restaurants[0][1])
+        adminDB.dropRestaurantsView()
     else:
         message="¿Vas con amigos?"
         askAgainPositiveNegative(bot,id,message)
@@ -70,11 +74,23 @@ def filterAlcohol(message,bot,id):
     except:
         pass
     if(verifyWordPositive(resultPln)):
-        print('si tomará alcohol')
-        askWithFriends(bot,id)
+        restaurants = adminDB.getRestaurants('alcohol', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askWithFriends(bot,id)
     elif(verifyWordNegative(resultPln)):
-        print('no tomará alcohol')
-        askWithFriends(bot,id)
+        restaurants = adminDB.getRestaurants('alcohol', 'True')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askWithFriends(bot,id)
     else:
         message="¿Tienes pensado tomar alcohol hoy?"
         askAgainPositiveNegative(bot,id,message)
@@ -88,11 +104,23 @@ def askWithFriends(bot,id):
 def filterDisability(message,bot,id): #acesso para personas con discapacidad
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     if(verifyWordPositive(resultPln)):
-        print('si necesita restaurante para discapacitados')
-        askAlcohol(bot,id)
+        restaurants = adminDB.getRestaurants('accessible_wheelchair', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askAlcohol(bot,id)
     elif(verifyWordNegative(resultPln)):
-        print('no necesita restaurante para discapacitador')
-        askAlcohol(bot,id)
+        restaurants = adminDB.getRestaurants('accessible_wheelchair', 'True')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askAlcohol(bot,id)
     else:
         message="¿Tienes alguna discapacidad o vas en compañía de alguien en esta condición?"
         askAgainPositiveNegative(bot,id,message)
@@ -166,34 +194,58 @@ def verifyTypeFood(resultPln):
 def filterProfesion(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message))))
     valueProfession, rangeProfession = fl.getProfession(resultPln)
-    values = [int(id), valueProfession, rangeProfession]
-    adminDB.insertValue('(id, profesion, rangoProfesion)', 'users', values)
-    rangeAge = adminDB.getRangeAge(int(id))
-    rangePrice = adminDB.getRangePrice(rangeProfession, rangeAge)
-    restaurants = adminDB.getRestaurantsPrice(rangePrice)
-    if len(restaurants)<4:
-        bot.sendMessage(chat_id=id, text="Deberias ir a")
-        writeConversation(str(id),"bot: "+message.lower())
-        bot.sendMessage(chat_id=id, text=restaurants[0][1])
-        adminDB.dropRestaurantsView()
-    else:
-        message="¿Quieres desayuno, almuerzo o cena?"
-        bot.sendMessage(chat_id=id, text="¡Muy buena profesión!, para tener más certeza:")
+    if rangeProfession == 0:
+        message="¿Cuál es tu profesión o qué haces a diario?"
+        bot.sendMessage(chat_id=id, text="¡Ops, revisa que tengas bien la escritura de lo que deseas comunicarme, se me dificultad entender!")
         bot.sendMessage(chat_id=id, text=message)
         writeConversation(str(id),"bot: "+message.lower())
+    else:
+        values = [int(id), valueProfession, rangeProfession]
+        adminDB.insertValue('(id, profesion, rangoProfesion)', 'users', values)
+        rangeAge = adminDB.getRangeAge(int(id))
+        rangePrice = adminDB.getRangePrice(rangeProfession, rangeAge)
+        restaurants = adminDB.getRestaurantsPrice(rangePrice)
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            message="¿Quieres desayuno, almuerzo o cena?"
+            bot.sendMessage(chat_id=id, text="¡Muy buena profesión!, para tener más certeza:")
+            bot.sendMessage(chat_id=id, text=message)
+            writeConversation(str(id),"bot: "+message.lower())
 
 def filterHourFood(message, bot, id):
     resultPln = pln.filterSignes(list(pln.clearEmptyWords(pln.separateText(message)))) 
     #se debe filtrar los restaurantes que tengan true en la bd knowledge
     if verifyListBreakFast(resultPln):
-        print('consulta de restaurante con true meal_breakfast')
-        askTypeFood(id,bot)
+        restaurants = adminDB.getRestaurants('meal_breakfast', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askTypeFood(id,bot)
     elif verifyListLunch(resultPln):
-        print('consulta de restaurante con true meal_lunch')
-        askTypeFood(id,bot)
+        restaurants = adminDB.getRestaurants('meal_lunch', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askTypeFood(id,bot)
     elif verifyListDinner(resultPln):
-        print('consulta de restaurante con true meal_dinner')
-        askTypeFood(id,bot)
+        restaurants = adminDB.getRestaurants('meal_dinner', 'False')
+        if len(restaurants)<4:
+            bot.sendMessage(chat_id=id, text="Deberias ir a")
+            writeConversation(str(id),"bot: "+message.lower())
+            bot.sendMessage(chat_id=id, text=restaurants[0][1])
+            adminDB.dropRestaurantsView()
+        else:
+            askTypeFood(id,bot)
     else:
         message="¿Quieres desayuno, almuerzo o cena?"
         bot.sendMessage(chat_id=id, text="¡Ops, revisa que tengas bien la escritura de lo que deseas comunicarme, se me dificultad entender!")
