@@ -40,6 +40,14 @@ def insert_values(c, table_name, values):
         c.execute('INSERT INTO {0} VALUES {1}'.format(table_name, str(row).replace('[', '(').replace(']', ')')))
 
 def insert_value(c,table_name,columns,values):
+    valuesAux = str(values).split(',')
+    valueId = valuesAux[0].replace('[','')
+    valueEdad = valuesAux[1].replace(']','')
+    print(valueId+' - '+valueEdad)
+    try:
+        c.execute('DELETE FROM {0} WHERE id={1}'.format(table_name,valueId))
+    except:
+        pass
     c.execute('INSERT INTO {0} {1} VALUES {2}'.format(table_name,columns,str(values).replace('[', '(').replace(']', ')')))
 
 #def insert_age(c,table_name,columns,values):
